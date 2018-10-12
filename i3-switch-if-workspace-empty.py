@@ -2,10 +2,12 @@
 import i3ipc
 from collections import deque
 
+CIRCULAR_BUFFER_DIM = 10
+
 i3 = i3ipc.Connection()
 
 # Circular buffer containing last used workspaces
-WORKSPACES_LIST = deque(maxlen = 10)
+WORKSPACES_LIST = deque(maxlen = CIRCULAR_BUFFER_DIM)
 WORKSPACES_LIST.append(i3.get_tree().find_focused().workspace().name)
 
 def is_workspace_empty(workspace_name):
