@@ -1,5 +1,6 @@
 # About
 Python script using i3ipc to connect to i3wm: on window close, if the current workspace is empty, move to the first previous non empty workspace.
+
 **N.B.** everytime you restart i3, you lose your previous history, so for the first tag will not work.
 
 # Dependencies
