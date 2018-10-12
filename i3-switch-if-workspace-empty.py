@@ -6,6 +6,7 @@ i3 = i3ipc.Connection()
 
 # Circular buffer containing last used workspaces
 WORKSPACES_LIST = deque(maxlen = 10)
+WORKSPACES_LIST.append(i3.get_tree().find_focused().workspace().name)
 
 def is_workspace_empty(workspace_name):
 	workspace = i3.get_tree().find_named(workspace_name)
