@@ -11,4 +11,4 @@ Python script using i3ipc to connect to i3wm: on window close, if the current wo
 1. Clone the repo
 2. Install i3ipc-python: `pip install i3ipc`
 3. Add to your i3 config: `exec_always /parent/path/i3-switch-if-workspace-empty.py`
-4. Restart i3
+4. Reload i3
