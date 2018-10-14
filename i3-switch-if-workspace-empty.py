@@ -6,16 +6,16 @@ CIRCULAR_BUFFER_DIM = 10
 
 i3 = i3ipc.Connection()
 
-# Circular buffer containing last used workspaces
+# Circular buffer containing last used workspaces id and name
 WORKSPACES_LIST = deque(maxlen = CIRCULAR_BUFFER_DIM)
-WORKSPACES_LIST.append(i3.get_tree().find_focused().workspace().name)
+first_focused = i3.get_tree().find_focused()
+WORKSPACES_LIST.append({'id': first_focused.workspace().id, 'name': first_focused.workspace().name})
 
-def is_workspace_empty(workspace_name):
-	workspace = i3.get_tree().find_named(workspace_name)
+def is_workspace_empty(workspace_id):
+	workspace = i3.get_tree().find_by_id(workspace_id)
 	if not workspace:
 		return True
-	if workspace[0].workspace().leaves():
-		print(workspace[0].workspace().leaves())
+	if workspace.workspace().leaves():
 		return False
 	else:
 		return True
@@ -23,7 +23,7 @@ def is_workspace_empty(workspace_name):
 # On workspace focus, add the workspace to the circular buffer
 def on_workspace_focus(self, e):
 	if e.current:
-		WORKSPACES_LIST.append(e.current.name)
+		WORKSPACES_LIST.append({'id': e.current.id, 'name': e.current.name})
 
 # On window close, if the workspace is empty
 # go back to the first non empty workspace
@@ -32,8 +32,8 @@ def on_window_close(self, e):
 	if not focused.workspace().leaves():
 		# If workspace empty
 		for w in reversed(WORKSPACES_LIST):
-			if not is_workspace_empty(w):
-				i3.command('workspace ' + w)
+			if not is_workspace_empty(w['id']):
+				i3.command('workspace ' + w['name'])
 				break
 
 # Subscribing to events
