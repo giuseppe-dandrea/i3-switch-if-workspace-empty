@@ -33,7 +33,7 @@ first_focused = i3.get_tree().find_focused()
 WORKSPACES_LIST.append({'id': first_focused.workspace().id, 'name': first_focused.workspace().name})
 
 def init_ws_map(wlist):
-    return {k.name: output for el in wlist}
+    return {w.name: w.output for w in wlist}
 
 def is_same_output(wmap, wname1, wname2):
 	return wname1 == wname2 or wmap.get(wname1, "") == wmap.get(wname2, "")
