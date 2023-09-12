@@ -33,28 +33,14 @@ first_focused = i3.get_tree().find_focused()
 WORKSPACES_LIST.append({'id': first_focused.workspace().id, 'name': first_focused.workspace().name})
 
 def init_ws_map(wlist):
-	tmp = dict()
-	for ws in wlist:
-		tmp[ws.name] = ws.output
-	return tmp
+    return {w.name: w.output for w in wlist}
 
 def is_same_output(wmap, wname1, wname2):
-	if wname1 == wname2:
-		return True
-
-	OUTPUT1 = wmap.get(wname1, "")
-	OUTPUT2 = wmap.get(wname2, "")
-
-	return OUTPUT1 == OUTPUT2
+	return wname1 == wname2 or wmap.get(wname1, "") == wmap.get(wname2, "")
 
 def is_workspace_empty(workspace_id):
 	workspace = i3.get_tree().find_by_id(workspace_id)
-	if not workspace:
-		return True
-	if workspace.workspace().leaves():
-		return False
-	else:
-		return True
+	return not workspace or not workspace.workspace().leaves()
 
 # On workspace focus, add the workspace to the circular buffer
 def on_workspace_focus(self, e):
