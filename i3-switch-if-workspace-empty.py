@@ -49,12 +49,7 @@ def is_same_output(wmap, wname1, wname2):
 
 def is_workspace_empty(workspace_id):
 	workspace = i3.get_tree().find_by_id(workspace_id)
-	if not workspace:
-		return True
-	if workspace.workspace().leaves():
-		return False
-	else:
-		return True
+	return not workspace or not workspace.workspace().leaves()
 
 # On workspace focus, add the workspace to the circular buffer
 def on_workspace_focus(self, e):
